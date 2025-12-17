@@ -11,7 +11,7 @@ import { isLocalStorageDataValid } from "@/lib/utils";
 function Home() {
   const queryClient = useQueryClient();
 
-  const { data: amount } = useQuery({
+  const { data: baseValue } = useQuery({
     queryKey: ["base-value"],
     queryFn: handleBaseAmountValue,
   });
@@ -57,10 +57,10 @@ function Home() {
         </div>
 
         {/*TODO: Adicionar skeleton loading ao inves desse switch entre button e texto*/}
-        {amount ? (
+        {baseValue ? (
           <div>
             <p className="flex gap-1 font-press-start">
-              {amount} <span className="font-press-start">R$</span>
+              {baseValue} <span className="font-press-start">R$</span>
             </p>
           </div>
         ) : (
@@ -74,7 +74,7 @@ function Home() {
       </div>
 
       <DayCarousel />
-      <Progress />
+      <Progress baseValue={baseValue} />
       <Expenses />
     </div>
   );
