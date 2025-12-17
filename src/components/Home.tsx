@@ -7,13 +7,9 @@ import { PlusIcon } from "lucide-react";
 import { userService } from "@/services";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { isLocalStorageDataValid } from "@/lib/utils";
-import { useState } from "react";
 
 function Home() {
   const queryClient = useQueryClient();
-
-  const [openNewExpenseDialog, setOpenNewExpenseDialog] =
-    useState<boolean>(false);
 
   const { data: baseValue } = useQuery({
     queryKey: ["base-value"],
@@ -21,16 +17,7 @@ function Home() {
   });
 
   const mutation = useMutation({
-    mutationFn: () => {
-      localStorage.setItem(
-        "base_value",
-        JSON.stringify({
-          base_value: 2000,
-          timestamp: new Date().getTime(),
-        }),
-      );
-      return userService.saveBaseAmountValue(2000);
-    },
+    mutationFn: () => addBaseValue(),
     onSettled: () =>
       queryClient.invalidateQueries({ queryKey: ["base-value"] }),
   });
@@ -47,8 +34,15 @@ function Home() {
     return await userService.getBaseAmountValue();
   }
 
-  function addNewExpense() {
-    setOpenNewExpenseDialog(true);
+  function addBaseValue() {
+    localStorage.setItem(
+      "base_value",
+      JSON.stringify({
+        base_value: 2000,
+        timestamp: new Date().getTime(),
+      }),
+    );
+    return userService.saveBaseAmountValue(2000);
   }
 
   return (
@@ -83,7 +77,7 @@ function Home() {
 
       <DayCarousel />
       <Progress baseValue={baseValue} />
-      <Expenses addNewExpense={addNewExpense} />
+      <Expenses />
     </div>
   );
 }

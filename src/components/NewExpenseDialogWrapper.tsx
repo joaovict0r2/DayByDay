@@ -1,4 +1,4 @@
-import { useState, type FormEvent, type ReactNode } from "react";
+import { type FormEvent, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,29 +11,31 @@ import Input from "@/components/Input";
 
 interface INewExpenseDialogWrapper {
   children: ReactNode;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-function NewExpenseDialogWrapper({ children }: INewExpenseDialogWrapper) {
-  const [open, setOpen] = useState(false);
+function NewExpenseDialogWrapper({
+  children,
+  onSubmit,
+  open,
+  onOpenChange,
+}: INewExpenseDialogWrapper) {
 
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-
-    const amount = formData.get("amount");
-    const description = formData.get("description");
-
-    console.log(amount, description);
-  }
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-md bg-[#ffedc9] border-none rounded-xs drop-shadow-dialog">
         <DialogTitle className="font-press-start text-sm font-normal">
           Add expense
         </DialogTitle>
 
-        <form id="form" onSubmit={submit} className="flex flex-col gap-4 mb-3">
+        <form
+          id="form"
+          onSubmit={onSubmit}
+          className="flex flex-col gap-4 mb-3"
+        >
           <Input
             name="amount"
             label="Amount"
