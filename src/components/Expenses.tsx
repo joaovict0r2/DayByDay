@@ -1,6 +1,11 @@
 import { PlusIcon } from "lucide-react";
+import NewExpenseDialogWrapper from "./NewExpenseDialogWrapper";
 
-function Expenses() {
+interface IExpenses {
+  addNewExpense: () => void;
+}
+
+function Expenses({ addNewExpense }: IExpenses) {
   const expenses = [...Array(7).keys()];
 
   return (
@@ -21,12 +26,14 @@ function Expenses() {
         ))}
       </div>
 
-      <button
-        className="absolute bottom-2 right-0 w-12 h-12 bg-[#6BB0A8] rounded-full border border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all"
-        onClick={() => console.log("Add new expense")}
-      >
-        <PlusIcon className="w-6 h-6 text-black" />
-      </button>
+      <NewExpenseDialogWrapper>
+        <button
+          className="absolute bottom-2 right-0 w-12 h-12 bg-[#6BB0A8] rounded-full border border-black flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 cursor-pointer"
+          onClick={() => addNewExpense()}
+        >
+          <PlusIcon className="w-6 h-6 text-black" />
+        </button>
+      </NewExpenseDialogWrapper>
     </div>
   );
 }

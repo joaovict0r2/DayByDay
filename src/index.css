@@ -7,6 +7,7 @@
   --font-press-start: "Press Start 2P";
   --font-inter: Inter;
   --drop-shadow-alt: 3px 3px 0 rgba(0, 0, 0, 0.25);
+  --drop-shadow-dialog: 3px 3px 0 rgba(0, 0, 0, 1);
 }
 
 @theme inline {
@@ -121,12 +122,16 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-[#F6DDAB] text-foreground;
+    @apply bg-[#ffedc9] text-foreground;
   }
   p {
     @apply font-inter;
   }
+  button {
+    @apply cursor-pointer;
+  }
 }
+
 
 @layer base {
   :root {

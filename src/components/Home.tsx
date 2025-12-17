@@ -7,9 +7,13 @@ import { PlusIcon } from "lucide-react";
 import { userService } from "@/services";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { isLocalStorageDataValid } from "@/lib/utils";
+import { useState } from "react";
 
 function Home() {
   const queryClient = useQueryClient();
+
+  const [openNewExpenseDialog, setOpenNewExpenseDialog] =
+    useState<boolean>(false);
 
   const { data: baseValue } = useQuery({
     queryKey: ["base-value"],
@@ -41,6 +45,10 @@ function Home() {
     }
 
     return await userService.getBaseAmountValue();
+  }
+
+  function addNewExpense() {
+    setOpenNewExpenseDialog(true);
   }
 
   return (
@@ -75,7 +83,7 @@ function Home() {
 
       <DayCarousel />
       <Progress baseValue={baseValue} />
-      <Expenses />
+      <Expenses addNewExpense={addNewExpense} />
     </div>
   );
 }
